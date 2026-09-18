@@ -5,10 +5,14 @@ from pydantic import BaseModel, Field
 
 class Issue(BaseModel):
     title: str
-    severity: str = "medium"
+    category: str = "CRO"
+    severity: str = "Medium"
+    primary_kpi: str = "CVR"
+    secondary_kpi: Optional[str] = None
     evidence: List[str] = Field(default_factory=list)
     why_it_matters: str = ""
     recommendation: str = ""
+    expected_impact: str = ""
 
 
 class PageAudit(BaseModel):
@@ -42,3 +46,4 @@ class AuditReport(BaseModel):
     aov_opportunities: List[AOVOpportunity]
     recommendations: List[Recommendation]
     deck_outline: List[str]
+    findings: List[Issue] = Field(default_factory=list, max_length=8)

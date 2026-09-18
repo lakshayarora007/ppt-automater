@@ -1,4 +1,4 @@
-from app.models import AuditReport, PageAudit
+from app.models import AuditReport, Issue, PageAudit
 
 
 def test_page_audit_has_required_fields():
@@ -27,3 +27,18 @@ def test_audit_report_has_core_sections():
     assert audit.brand_name == "Example Brand"
     assert audit.executive_summary.startswith("Strong")
     assert isinstance(audit.pages, list)
+
+
+def test_issue_supports_pitch_ready_kpi_fields_and_audit_caps_findings():
+    audit = AuditReport(
+        brand_name="Example Brand",
+        website_url="https://example.com",
+        executive_summary="Summary",
+        pages=[],
+        aov_opportunities=[],
+        recommendations=[],
+        deck_outline=[],
+        findings=[Issue(title=f"Finding {index}") for index in range(8)],
+    )
+    assert audit.findings[-1].primary_kpi == "CVR"
+    assert len(audit.findings) == 8
